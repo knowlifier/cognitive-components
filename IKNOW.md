@@ -2,7 +2,7 @@
 
 This file describes the architecture conventions for extending knowledge within the project using Cognitive Components.
 
-## Knowlifier Cognitive Components Project
+## Knowli🔥fier Cognitive Components Project
 
 - I know kung fu. *Neo*
 
@@ -31,22 +31,28 @@ A single Cognitive Component knowledge package contains:
 
 - concepts and definitions
 - data and facts
-- process descriptions
+- process descriptions and workflows
 
 Packages may have dependencies and reference each other.
 
 ## Cognitive Components Location
 
-Cognitive Components are located in the `knowledge` folder.
-Cognitive Components added as dependency packages reside in `knowledge/_lib`
+Cognitive Components packages added as dependencies reside in `.knowlib/[package-name]`
 Cognitive Components developed within this project reside in separate folders inside `knowledge/` in the format `knowledge/[component-name]`
-As creating a well-organized component is a lot of work that will require experimentation, the folder `knowledge/_sandbox` is accessible at design-time but not at run-time (see [IKNOW.md File](#iknow-md-file)).
 
-## Cognitive Components Purpose
+---
 
-Cognitive Components packages can be copied into a working project and extend the cognitive capabilities of agents, including:
-- **Design-time**: when copying Cognitive Components into Agentic IDE (Cursor, Codex, Claude Code, Cline, Windsurf, etc.), rules can be configured in `.cursor/rules` or `.clinerules` that use all or selected concepts and procedures from the components in code editing mode, thereby extending the knowledge and capabilities of Cursor/Claude Code/Codex agents in editing mode
-- **Run-time**: when copying Cognitive Components into OpenClaw and [insert more examples] projects, these components extend the knowledge and skills of agents in execution mode
+## How to Use Cognitive Components in your project
+
+Cognitive Components packages can be copied into a working project and extend the cognitive capabilities of agents. These are important steps: 
+
+1. Copy the file `IKNOW.md` from the Cognitive Components repository into the root folder of your project.
+2. Copy the file `AGENTS.md` from the Cognitive Components repository with the instructions into the root folder of your project. If you already have the `AGENTS.md` file in your folder created by another agentic platform or framework, merge the files, and add make sure that the instructions from both platforms do not contradict each other, modify if needed.
+3. Copy the desired Cognitive Components Packages into `.knowlib/` or install them with a package manager, these are cognitive packages that you don't want to modify, but they may be required as dependencies.
+4. Copy the desired Cognitive Components that you want to modify in your project into `knowledge/` folder.  Create your own components in this folder.
+5. Modify `IKNOW.md` Permissions and add your components from the `.knowlib/` and `knowledge/` so that these components become visible and accessible to the agentic platform.
+
+---
 
 ## IKNOW.md File
 
@@ -54,13 +60,13 @@ This file must be present in the project root. It explains the logic of operatio
 
 This file contains configurations and permissions for the components in this project:
 
-- **Design-time components** — cognitive components used in code editing mode from the IDE. They may contain commands and instructions for structuring knowledge, creating and editing new cognitive components, formatting knowledge, invoking MCP service servers during knowledge loading into databases, testing designed processes and workflows, etc.
+- **Design-Time Permissions** — cognitive components used in code editing mode from the IDE. They may contain commands and instructions for structuring knowledge, creating and editing new cognitive components, formatting knowledge, invoking MCP service servers during knowledge loading into databases, testing designed processes and workflows, etc.
 
-- **Run-time components** — cognitive components used in code execution mode by the agent. These components perform the necessary business processes.
+- **Run-Time components** — cognitive components used in code execution mode by the agent. These components perform the necessary business processes.
 
 The design-time vs. run-time separation is important: explicitly separate these components, restricting run-time access to design-time components so that during execution users cannot trigger editing of component files unless explicitly intended.
 
-### Permissions 
+## Permissions 
 
 Permissions define access to components at run-time and design-time:
 - **READ**: the agents can read and understand the knowledge specified in the components, including terms, principles and data. If the link to the folder or file is not specified explicitly as READ for this component (in design-time or run-time), then the system should ignore these files as if this knowledge did not exist (in design-time or run-time respectively).
@@ -71,47 +77,35 @@ Example of permissions:
 
 ````yaml
 READ:
-  - knowledge/_lib/*
+  - .knowlib/package-name-A/knowledge/component-name-B/*
 
 WRITE:
-  - knowledge/component-name1/*
-  - knowledge/component-name2/concepts/*
+  - knowledge/component-name-1/*
+  - knowledge/component-name-2/concepts/*
 
 RUN:
-  - knowledge/component-name1/*
+  - knowledge/component-name-1/*
 ````
 
 The permissions for the current project are listed below. Edit this file at design-time to add your components if necessary.
 
-## Design-time components
+## Design-Time Permissions
 
 ````yaml
 READ:
-  - knowledge/_lib/*
-  - knowledge/_sandbox/*
-  - knowledge/customer-calls/*
-  - knowledge/genotype/*
-  - knowledge/landing-pages/*
+  - .knowlib/cognitive-components/knowledge/*
 
-WRITE:
-  - knowledge/_sandbox/*
-  - knowledge/customer-calls/*
-  - knowledge/genotype/*
-  - knowledge/landing-pages/*
+WRITE: []
 
-RUN:
-  - knowledge/_sandbox/*
-  - knowledge/customer-calls/*
-  - knowledge/genotype/*
-  - knowledge/landing-pages/*
+RUN: 
+  - .knowlib/cognitive-components/knowledge/cognitive-components-core/*
 ````
 
-## Run-time components
+## Run-Time Permissions
 
 ````yaml
 READ:
-  - knowledge/customer-calls/*
-  - knowledge/landing-pages/*
+  - .knowlib/cognitive-components/knowledge/*
 
 WRITE: []
 

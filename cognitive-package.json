@@ -1,0 +1,8 @@
+{
+  "name": "cognitive-components",
+  "version": "0.1.0",
+  "description": "Core definitions, taxonomies, principles, and templates for Cognitive Components and Cognitive Packages",
+  "author": "Artemy Malkov",
+  "dependencies": [],
+  "taxonomy_resolution": {}
+}

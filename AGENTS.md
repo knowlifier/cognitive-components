@@ -10,7 +10,7 @@ These rules are mandatory for every user request in this repository.
 ## Step 0. Route Request To Component Agent (required first)
 
 1. Read `IKNOW.md`.
-2. From `IKNOW.md` Design-time permissions, take all components in `RUN`.
+2. From `IKNOW.md` Design-Time permissions, take all components in `RUN`.
 3. For each such component, read `knowledge/[component]/agent.md`.
 4. Compare user input with each Job field **Request examples** using fuzzy matching:
    - typos,
@@ -24,7 +24,7 @@ These rules are mandatory for every user request in this repository.
 
 ## Step 1. Load Knowledge (READ)
 
-- For each selected component, load only relevant materials allowed by Design-time `READ` in `IKNOW.md`.
+- For each selected component, load only relevant materials allowed by Design-Time `READ` in `IKNOW.md`.
 - Prioritize:
   - `knowledge/[component]/concepts/*`
   - `knowledge/[component]/data/*`
