@@ -110,7 +110,6 @@ MarketingDocumentTaxonomy (DocumentTaxonomy) : Document
 ```
 CoprorateDocumentTaxonomy (DocumentTaxonomy) : Document
 ├── #technical-document
-├── #product-document
 ├── #policy-document
 ├── #report-document
 └── #meeting-minutes

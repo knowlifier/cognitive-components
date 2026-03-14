@@ -233,12 +233,12 @@ Valid examples:
 Avoid tags that are ambigous, although they may become clear when combined with the name of taxonomy, in some documents, solo tags may cause wrong interpretation.
 
 Don't do this (bad):
-- ClothingSizeTaxonomy--medium
-- SteakDonenessTaxonomy--medium
+- `ClothingSizeTaxonomy--medium`
+- `SteakDonenessTaxonomy--medium`
 
 Do this (good):
-- ClothingSizeTaxonomy--medium-size
-- SteakDonenessTaxonomy--medium-doneness
+- `ClothingSizeTaxonomy--medium-size`
+- `SteakDonenessTaxonomy--medium-doneness`
 
 #### Category Description
 
