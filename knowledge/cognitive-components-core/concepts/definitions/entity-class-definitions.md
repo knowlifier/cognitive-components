@@ -13,6 +13,7 @@
 - [Class](#class)
 - [Subclass](#subclass)
 - [Property](#property)
+- [SubjectDetails](#subjectdetails)
 - [Class Guidelines](#class-guidelines)
 - [Entity Template](#entity-template) 
 - [Typecasting](#typecasting) 
@@ -106,6 +107,7 @@ Property type, format and semantic are not obligatory; if you declare just a pro
 - url : link to a webpage 
 - `SomeClass` : link to an entity of a defined `SomeClass`
 - `#SomeTaxonomy` : link to a particular `Category` in `SomeTaxonomy`
+- `SubjectName-Details` : embedded block of related fields defined as a `SubjectDetails` (e.g. `Address-Details`, `Passport-Details`)
 
 `Property format` defines expected format, there is no one single required way to describe format, just avoid ambiguous declaration:
 - (description of expected format) - format described verbally
@@ -134,6 +136,10 @@ Examples of valid declarations (property names in snake_case):
   internal_reference (alphanumeric ID) - reference to external system
 
   page_name : text - displayed title of the page
+
+  postal_address : Address-Details - delivery or registration address
+
+  passport : Passport-Details - identity document data
 
   status (draft | published | archived) = draft
 
@@ -174,6 +180,110 @@ Using combination of fields as IDENTIFIER: A combination of field may be used as
 
   name & surname & birth_date IDENTIFIER
 ````
+
+---
+
+## SubjectDetails
+
+Alternative names: `Embedded Details` if the term SubjectDetails is ambiguous in the current context.
+
+`SubjectDetails` is a reusable block of related fields that is embedded inside an `Entity` or `Class` but is not a standalone `Entity` or `Cognitive Class`. Unlike a `Class`, `SubjectDetails` has no identity of its own — it cannot be referenced by ID from other entities. It exists only as part of its container `Entity`. 
+
+
+### Naming inside Classes, Rulebooks and Templates
+
+The name follows the pattern `[Subject]-Details`: the subject is what the block describes, and the block holds the details about that subject.
+
+**Examples:**
+- `Address-Details` — structure describing delivery or registration address (street, city, postal code, country)
+- `Passport-Details` — structure describing identity document data (series, number, issue date, issuing authority)
+- `Metadata-Details` — structure describing document or record metadata (author, created_at, source, version)
+- `SystemDesign-Details` — structure describing system components and their relationships (e.g. tree or table of components)
+- `Performance-Details` — structure describing employee performance feedback (rating, date, reviewer, comments)
+- `Approval-Details` — structure describing approval status on a document or decision (votes by decision-maker, status, deadline)
+
+`SubjectDetails` reduce repetition: instead of declaring the same set of fields in multiple classes, you define a details block once and reuse it. They also make forms and documents easier to understand for business users — a block like "Address" or "Passport" is familiar and self-explanatory.
+
+### Referencing SubjectDetails in a Class
+
+In a `Class`, a property can have a type that references a `SubjectDetails` block:
+
+````
+  postal_address : `Address-Details` - delivery or registration address
+  passport : `Passport-Details` - identity document data
+  metadata : `Metadata-Details` - document metadata
+  approval_status : `Approval-Details` - status of acceptance on the document or decision
+````
+
+### Declaring Subject Details
+
+`SubjectDetails` always contain a block of information but may be structured or semi-structured.
+When declaring `Subject Details` in a file you may either describe what is expected in these details or suggest a template with format properties.
+
+Example: Semi-structured declaration of `address-detail.md`
+````
+## Address Details
+
+This block contains information about address and may be formatted according the typical address format in the country of destination.
+
+It is important that the information contains:
+- postal code if applicable
+- city, town or a settlement
+- location street/place/landmark identifiable by a delivery service
+- delivery instructions if the access to the location is required
+````
+
+Example: Structured declaration via Properties
+````markdown
+## Address
+
+This block contains information about address and may be formatted according the typical address format in the country of destination.
+
+### Properties
+Street : string - street name and number
+City : string or `#CityTaxonomy` - city name, use city taxonomy if the city is present there
+Postal Code : text (postal code)
+Country : `#CountryTaxonomy` 
+````
+
+Example: Structured declaration via Template
+````markdown
+## Address
+
+This block contains information about address and may be formatted according the typical address format in the country of destination.
+
+### Template
+Street : [street name and number]
+City : [city name or #CityTaxonomy]
+Postal Code : [postal code]
+Country : [country name or #CountryTaxonomy]
+````
+
+All these three methods are valid.
+
+
+### File Naming and Location for Subject Details
+
+`SubjectDetails` definition files (e.g. `address-details.md`, `passport-details.md`, `approval-details.md`) should be placed in `{component-root}/classes` folder. By convention, use lowercase and kebab-case for file names always conaining `-details` in the end of file name.
+
+### Referencing SubjectDetails in Entity Templates
+
+When defining an `Entity Template` for a `Class`, you can indicate that a section contains a specific `SubjectDetails` block and point to its template for format and instructions:
+
+````markdown
+## Contact Information
+
+[Address-Details]
+
+````
+
+This keeps the main entity template concise while reusing the structure and rules defined in the details template.
+
+### Related Concepts
+
+- [Property](#property) — a simple property has a primitive or class type; a composite property has a SubjectDetails type (`details/SubjectName`)
+- [Entity Template](#entity-template) — entity templates can include sections that reference SubjectDetails templates
+- [Typecasting](#typecasting) — SubjectDetails templates guide typecasting for their embedded blocks
 
 ---
 
@@ -361,6 +471,36 @@ Supervisor : Daniel Flores, dflores@acme.com
 2019-07-23 - Exceeded expectations on infrastructure migration; delivered ahead of schedule with zero downtime.
 2017-04-12 - SUPERVISOR ASSIGNED: Sarah Chen, schen@acme.com.
 ````
+
+### Templates for SubjectDetails
+
+A `SubjectDetails` block can have its own template, defining how its data is stored and how `Typecasting` fills it from unstructured input. The template file can reside in `{component-root}/definitions/templates` or next to the details definition.
+
+`SubjectDetails` templates use second-level headings (`##`) as the top level when they stand alone. When you embed the block into an Entity template, increase the heading level (e.g. use `###` instead of `##`) so the block is nested correctly under its parent section. For example, if the block is placed under `## Contact Information`, use `### Address` so it appears as a subsection, not a sibling.
+
+Example of `address-details-template.md`:
+````markdown
+## Address
+
+Street : [street name and number]
+City : [city name]
+Postal Code : [postal code]
+Country : [country name or #CountryTaxonomy]
+
+---
+## END OF TEMPLATE, EXAMPLES BELOW THIS LINE
+---
+
+## Address
+
+Street : 123 Main Street, Apt 4B
+City : San Francisco
+Postal Code : 94102
+Country : United States (`#Country--us`)
+
+---
+````
+
 
 ### How Typecasting works via Templates 
 

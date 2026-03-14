@@ -2,9 +2,7 @@
 
 ---
 
-**Version:** [version in format used in this package]
-**Author:** [Author / git name of the author of the file if known]
-**Fidelity:** [#FileFidelityTaxonomy]
+[Metadata-Details]
 
 ---
 
@@ -27,7 +25,7 @@
 
 ### [Category Tag or `#category-tag`]
 
-[**Tag:** `#category-tag` if the section has name Category Tag]
+[**Tag:** `#category-tag` don't repeat if the section title is already `#category-tag`]
 
 [Short description: meaning, when to use, how it differs from siblings. Instructions for rulebooks if applicable.]
 
@@ -35,7 +33,7 @@
 
 ### [Category Tag or `#category-tag`]
 
-[**Tag:** `#category-tag` if the section has name Category Tag]
+[**Tag:** `#category-tag` don't repeat if the section title is already `#category-tag`]
 
 [Short Description...]
 
@@ -45,7 +43,7 @@
 
 ( [Detailed description and intstuctions below if one paragraph is not enough and the subsections are applicable] )
 
-[**Tag:** `#category-tag` if the section has name Category Tag]
+[**Tag:** `#category-tag` don't repeat if the section title is already `#category-tag`]
 
 #### Description
 
