@@ -285,6 +285,10 @@ This keeps the main entity template concise while reusing the structure and rule
 - [Entity Template](#entity-template) — entity templates can include sections that reference SubjectDetails templates
 - [Typecasting](#typecasting) — SubjectDetails templates guide typecasting for their embedded blocks
 
+### Static Classes
+
+[TBD : describe the concept of static classes the classes that have only one instance and can not have multiple instances. Their class declaration files itself may be used as data structures and be referenced by other `Entities` or `Rulebooks`]
+
 ---
 
 ## Class Guidelines
@@ -535,6 +539,8 @@ When new information arrives in unstructured or semi-structured form, we apply `
 
 Class inheritance is a mechanism for transfer of `Properties` from a parent class to subclasses. When inheriting, all `Properties` of the parent class automatically become part of the subclass. A subclass can refine the format or extend the set of parent properties, but cannot cancel their presence. This ensures data structure compatibility, and formal validation in the class hierarchy. Inheritance creates vertical connections in the class hierarchy and is the basis for working with databases, compilers, and formal algorithms.
 
+When the subclass inherits the properties of the parent class, it may 
+
 **Example:** The `Document` class has a property `creation_date` (type: date). The `Contract` subclass automatically inherits this property and cannot remove it, but can refine the date format or add additional properties, for example `signing_date`.
 
 For better transparency when you describe a subclass it may be reasonable to list all inherited properties as well.
@@ -542,14 +548,14 @@ For better transparency when you describe a subclass it may be reasonable to lis
 
 Example of Classes with inheritance declaration in the code style:
 ````
-Class User: 
+class User: 
 
   name : string
   surname : string
   email IDENTIFIER : text (valid email) - personal or corporate email 
 
 
-Class Employee (User):
+class Employee (User):
 
   inherited from User
   - name
@@ -577,7 +583,7 @@ User.md
 
 Employee.md
 ````markdown
-# Employee Class
+# Employee Class extends User
 
 ## Properties Inherited from User
 - `Name`

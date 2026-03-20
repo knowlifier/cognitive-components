@@ -315,8 +315,6 @@ When a `Rulebook` receives an `Entity`, it can read the entity's category-linked
 
 `Rulebooks` should be able to work with the taxonomy tree: if an entity is classified into a specific leaf category, one set of actions applies; if it falls into a parent category (e.g., we know the `Entity` is a `#legal-document` but not whether it is a `#contract`, a `#claim`, or another subcategory of `#legal-document`), the rulebook should apply the processing defined for that higher-level category — for example, "legal documents that did not fall into any specific subcategory."
 
-
-
 ---
 
 #### Taxonomy and Category Examples
