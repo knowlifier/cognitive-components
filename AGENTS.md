@@ -20,7 +20,7 @@ These rules are mandatory for every user request in this repository.
    - `Target Cognitive Component`,
    - `Target Agent Job`,
    - and optionally an ordered `Agent Chain` if multiple jobs/components are needed.
-6. If no match exists, execute Plan B.
+6. If no match exists, execute `Default IDE Behavior`.
 
 ## Step 1. Load Knowledge (READ)
 
@@ -36,9 +36,9 @@ These rules are mandatory for every user request in this repository.
 2. Follow that workflow strictly, including project selection checks and output constraints.
 3. Validate result quality against workflow expected output before final response.
 
-## Plan B (no component match)
+## Default IDE Behavior (no component match)
 
-- Handle the request with normal Codex capabilities and repository instructions.
+- Handle the request with normal IDE (Claude/Cursor/Codex etc.) capabilities and repository instructions.
 
 ## Response Protocol (for transparency)
 
