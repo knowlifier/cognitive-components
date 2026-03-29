@@ -33,8 +33,10 @@ A **Cognitive Package** is a collection of related Cognitive Components that sha
 ### Cognitive Project
 
 A **Cognitive Project** is any project that uses Cognitive Components. It becomes a Cognitive Project when it has:
+
 - An `IKNOW.md` file defining access permissions to components
 - At least one Cognitive Package in `.knowlib/` or one or more Cognitive Components in `knowledge/`
+
 ### Entity & Class
 
 - **Entity** — A structured piece of data representing an object (product, person, file, organization, etc.). Entities may contain semi-structured data and support **Typecasting** to map into formats required by business processes.
@@ -70,18 +72,28 @@ cognitive-components/
     └── cognitive-components-core/
         ├── agent/
         │   └── agent.md
-        └── concepts/
-            ├── definitions/
-            │   ├── component-package-project-definitions.md
-            │   ├── entity-class-definitions.md
-            │   ├── taxonomy-category-definitions.md
-            │   └── data-collection-definitions.md
-            ├── principles/
-            │   └── incomplete-unstructured-data-handling-principle.md
-            ├── taxonomies/
-            │   └── FileFidelityTaxonomy.md
-            └── templates/
-                └── taxonomy-template.md
+        ├── concepts/
+        │   ├── classes/
+        │   │   └── metadata-details.md
+        │   ├── definitions/
+        │   │   ├── component-package-project-definitions.md
+        │   │   ├── entity-class-definitions.md
+        │   │   ├── taxonomy-category-definitions.md
+        │   │   └── data-collection-definitions.md
+        │   ├── principles/
+        │   │   ├── incomplete-unstructured-data-handling-principle.md
+        │   │   └── taxonomy-extension-princilpe.md
+        │   ├── taxonomies/
+        │   │   └── FileFidelityTaxonomy.md
+        │   └── templates/
+        │       └── taxonomy-template.md
+        ├── data/
+        │   └── .gitkeep
+        └── workflows/
+            └── claude-skill-generator/
+                ├── generate-claude-skill-rulebook.md
+                └── claude-official-guide/
+                    └── The-Complete-Guide-to-Building-Skills-for-Claude.md
 ```
 
 ---
@@ -91,14 +103,19 @@ cognitive-components/
 | Path | Description |
 |------|-------------|
 | `cognitive-package.json` | Package manifest: name, version, author, dependencies, taxonomy_resolution. |
+| `data/` | Reserved for catalogs and instance data for this component (see `component-package-project-definitions.md`). |
 | `concepts/definitions/component-package-project-definitions.md` | Defines Cognitive Component, Package, and Project structure, folder layout, and how they work together. Includes examples (support ticket routing, e-commerce). |
 | `concepts/definitions/entity-class-definitions.md` | Defines Entity, Class, Subclass, Property, Guidelines, Entity Template, Typecasting, and inheritance. |
 | `concepts/definitions/taxonomy-category-definitions.md` | Defines Taxonomy, Category, category tags, taxonomy use cases, and how classes and categories work together. |
 | `concepts/definitions/data-collection-definitions.md` | Placeholder for Data Collection definitions. |
+| `concepts/classes/metadata-details.md` | `Metadata-Details` block for document metadata (version, author, fidelity, optional source). |
 | `concepts/principles/incomplete-unstructured-data-handling-principle.md` | Principles for handling incomplete or unstructured data. |
+| `concepts/principles/taxonomy-extension-princilpe.md` | Principles for extending taxonomies. |
 | `concepts/taxonomies/FileFidelityTaxonomy.md` | Taxonomy for file fidelity levels (e.g., `#good-enough`, `#zero`). |
 | `concepts/templates/taxonomy-template.md` | Template for creating new taxonomies. |
-| `agent/agent.md` | Component agent with jobs for creating packages, components, and refactoring. |
+| `workflows/claude-skill-generator/generate-claude-skill-rulebook.md` | Rulebook to generate a self-contained Claude skill under the component’s `workflows/skills/`. |
+| `workflows/claude-skill-generator/claude-official-guide/...` | Anthropic’s skill authoring guide (bundled reference). |
+| `agent/agent.md` | Design-time agent: jobs for packages, components, refactoring, and Claude skill generation. |
 
 ---
 
@@ -113,12 +130,13 @@ cognitive-components/
 
 ### Agent Jobs (Design-Time)
 
-The component agent supports:
+The component agent (`knowledge/cognitive-components-core/agent/agent.md`) supports:
 
-- **Create a new Cognitive Package** — Scaffolds folder and file structure for a new package.
-- **Create a new Cognitive Component** — Scaffolds structure for a new component inside a package.
+- **Create a new Cognitive Package** — Scaffolds folder and file structure for a new package (rulebook named in `agent.md`).
+- **Create a new Cognitive Component** — Scaffolds structure for a new component inside a package (rulebook named in `agent.md`).
 - **Modify or refactor** — Existing package or component.
-- **Create or modify agent.md** — Package-level agent configuration.
+- **Create or modify a Cognitive Agent** — `agent.md` for the package or component.
+- **Generate a Claude skill for a Cognitive Component** — Produces a skill tree under `workflows/skills/[skill-name]/` per Anthropic’s layout (`workflows/claude-skill-generator/generate-claude-skill-rulebook.md`).
 
 ---
 
