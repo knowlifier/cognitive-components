@@ -1,4 +1,4 @@
-# Codex Agent Operating Rules (marketing-agi)
+# Claude/Cursor/Codex Agent Operating Rules
 
 These rules are mandatory for every user request in this repository.
 
