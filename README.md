@@ -2,6 +2,10 @@
 
 A structured knowledge package that defines the format and conventions for **Cognitive Components** — modular, AI-ready knowledge modules that combine formal definitions, data catalogs, and process descriptions for intelligent automation and decision-making.
 
+| Package | Version | Author |
+|---------|---------|--------|
+| `cognitive-components` | 0.1.0 | Artemy Malkov |
+
 ---
 
 ## Overview
@@ -58,6 +62,7 @@ A **Cognitive Project** is any project that uses Cognitive Components. It become
 
 ```
 cognitive-components/
+├── cognitive-package.json
 ├── IKNOW.md
 ├── AGENTS.md
 ├── README.md
@@ -85,6 +90,7 @@ cognitive-components/
 
 | Path | Description |
 |------|-------------|
+| `cognitive-package.json` | Package manifest: name, version, author, dependencies, taxonomy_resolution. |
 | `concepts/definitions/component-package-project-definitions.md` | Defines Cognitive Component, Package, and Project structure, folder layout, and how they work together. Includes examples (support ticket routing, e-commerce). |
 | `concepts/definitions/entity-class-definitions.md` | Defines Entity, Class, Subclass, Property, Guidelines, Entity Template, Typecasting, and inheritance. |
 | `concepts/definitions/taxonomy-category-definitions.md` | Defines Taxonomy, Category, category tags, taxonomy use cases, and how classes and categories work together. |

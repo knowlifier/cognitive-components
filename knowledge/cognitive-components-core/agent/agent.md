@@ -17,6 +17,8 @@ Apply only in Design-Time in Cursor/ClaudeCode/Codex etc. when the user asks to 
 
 - **Package Structure:** `concepts/definitions/component-package-project-definitions.md`
 - **Classes Standard:** `concepts/definitions/entities-classes-taxonomies-definition.md`
+- **Claude skills (official guide):** `workflows/claude-skill-generator/claude-official-guide/The-Complete-Guide-to-Building-Skills-for-Claude.md`
+- **Generate Claude skill rulebook:** `workflows/claude-skill-generator/generate-claude-skill-rulebook.md`
 
 
 ## Agent Jobs
@@ -58,3 +60,17 @@ Apply only in Design-Time in Cursor/ClaudeCode/Codex etc. when the user asks to 
 ---
 
 ### Create or modify a Cognitive Agent (an agent.md file inside the package)
+
+---
+
+### Generate a Claude skill for a Cognitive Component
+
+**Description:** Creates a valid Claude skill under the component’s `workflows/skills/[skill-kebab-name]/`, following Anthropic’s skill guide and bundling only what lives inside that skill folder (self-contained).
+
+**Situation:** The user wants a reusable Claude skill for a specific operation grounded in the component’s concepts and data, typically for use with Claude Code / Claude.ai skills.
+
+**Request examples:** generate a Claude skill, create a skill for this component, add a skill under workflows/skills, skill for taxonomy workflow, build agent skill from our definitions
+
+**Actions:** run `workflows/claude-skill-generator/generate-claude-skill-rulebook.md`
+
+**Expected Result:** A skill folder at `{component-root}/workflows/skills/[<]skill-kebab-name]/` with `SKILL.md` and optional `references/`, `assets/`, `scripts/` per the official guide; knowledge needed at runtime copied or summarized into that skill tree.
