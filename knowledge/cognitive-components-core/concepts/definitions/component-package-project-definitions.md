@@ -13,6 +13,7 @@
     - [Cognitive Component](#cognitive-component)
     - [Cognitive Component Structure](#cognitive-component-structure)
       - [`agent.md` file (in component root or inside `agent/` folder)](#agentmd-file-in-component-root-or-inside-agent-folder)
+      - [`architecture.md` (in component root or inside `architecture/` folder)](#architecturemd-in-component-root-or-inside-architecture-folder)
       - [`concepts/` folder](#concepts-folder)
         - [`classes/` folder](#classes-folder)
         - [`definitions/` folder](#definitions-folder)
@@ -23,6 +24,7 @@
       - [`workflows/` folder](#workflows-folder)
     - [Cognitive Component Package](#cognitive-component-package)
       - [`cognitive-package.json` file](#cognitive-packagejson-file)
+      - [`architecture.md` (package root or `architecture/` folder)](#architecturemd-package-root-or-architecture-folder)
       - [`knowledge/` folder (contains components)](#knowledge-folder-contains-components)
       - [`agent.md` file (in component root or inside `agent/` folder)](#agentmd-file-in-component-root-or-inside-agent-folder-1)
       - [`glossary.md` file](#glossarymd-file)
@@ -72,6 +74,9 @@ A `Cognitive Component` follows this structure:
 │   ├── agent.md
 │   ├── [scenario-rulebook].md
 │   └── [scenario-rulebook].md
+├── architecture/               # or architecture.md at root for simple components
+│   ├── architecture.md
+│   └── [architecture-decision]-ard.md
 ├── concepts/
 │   ├── classes/
 │   │   ├── [ClassName].md
@@ -121,6 +126,22 @@ The main agent file `agent.md` serves as the primary `Rulebook`. Additional mark
 **Where should the `agent.md` file be stored?**
 - Put `agent.md` directly in the component root folder `{cognitive-component-root}/agent.md` if the component is simple and does not require multiple complex jobs.
 - Create an `agent/` folder and put `agent.md` inside; if the logic is complex and has additional `Rulebooks` for separate jobs, put these rulebooks in the `agent/` folder.
+
+#### `architecture.md` (in component root or inside `architecture/` folder)
+
+The `architecture.md` file describes the structure and purpose of the component and how it will cooperate with other components.
+
+When a new empty cognitive component is created during development, describe the structure and purpose of its parts in `architecture.md`, together with the high-level view of the component's purpose, expected elements, and logic. As the file matures, it becomes easier to add the rest of the package (concepts, principles, workflows) with `architecture.md` as the guiding document.
+
+The architecture file captures the intended structure and purpose of the cognitive component's parts. Some parts may not be implemented yet but should still appear in the document to guide future work. While drafting, informal markers such as “FUTURE” or “TBD (later)” are fine. When the document is maintained or synchronized with the tree (see `workflows/sync-architecture-rulebook.md` in **cognitive-components-core**), use the canonical line per design unit: `**Implementation status:** FUTURE` | `IN PROGRESS` | `IMPLEMENTED`.
+
+Later in the development lifecycle, as specific areas of the cognitive component are built out, keep `architecture.md` synchronized with those changes so it stays accurate and reflects the current architecture.
+
+Additional ADR files (Architectural Decision Records), named `[architecture-decision]-ard.md`, may also be placed in the `architecture/` folder. They can document separate decisions and explain why a specific design was chosen.
+
+**Where should the `architecture.md` file be stored?**
+- Put `architecture.md` directly in the component root folder `{cognitive-component-root}/architecture.md` if the component is simple and does not require a complex architecture or versioning strategy.
+- Create an `architecture/` folder and put `architecture.md` inside if the logic is complex. Place additional ADRs in the `architecture/` folder as well.
 
 #### `concepts/` folder
 
@@ -176,14 +197,19 @@ A `Cognitive Component Package` follows this structure:
 ├── glossary.md
 ├── agent/                      # or agent.md directly at package root
 │   └── agent.md
+├── architecture/               # or architecture.md at package root for simple packages
+│   ├── architecture.md
+│   └── [architecture-decision]-ard.md
 └── knowledge/
     ├── [component-name-1]/
-    │   ├── agent/
+    │   ├── agent/              # or agent.md at component root when used
+    │   ├── architecture/     # optional; or architecture.md at component root when used
     │   ├── concepts/
     │   ├── data/
     │   └── workflows/
     ├── [component-name-2]/
     │   ├── agent/
+    │   ├── architecture/
     │   ├── concepts/
     │   ├── data/
     │   └── workflows/
@@ -207,7 +233,7 @@ Located at `{package-root}/cognitive-package.json`. Contains bindings and metada
 
 **Taxonomy resolution**
 
-- **`taxonomy_resolution`** — (optional) Maps base taxonomy names to their effective implementations (extended or aggregated taxonomies). When a base taxonomy (e.g., `ProductTaxonomy`) is referenced in classes, rulebooks, or templates, the system resolves it to the path specified here. Paths are relative to the package root. See the [Taxonomy Extension Principle](../principles/taxonomy-extension-princilpe.md) for details.
+- **`taxonomy_resolution`** — (optional) Maps base taxonomy names to their effective implementations (extended or aggregated taxonomies). When a base taxonomy (e.g., `ProductTaxonomy`) is referenced in classes, rulebooks, or templates, the system resolves it to the path specified here. Paths are relative to the package root. See the [Taxonomy Extension Principle](../principles/taxonomy-extension-principle.md) for details.
 
 **Example**
 
@@ -228,9 +254,23 @@ Located at `{package-root}/cognitive-package.json`. Contains bindings and metada
 }
 ```
 
+#### `architecture.md` (package root or `architecture/` folder)
+
+The package-level `architecture.md` file plays the **same role** as `architecture.md` inside a component, but scoped to the **whole Cognitive Package**.
+
+It describes the structure and purpose of the package as a unit: **which components** belong in `knowledge/`, **how they cooperate**, how data and rulebooks cross component boundaries, and how the package integrates with dependencies (including other Cognitive Packages referenced from `cognitive-package.json`). For a **new or evolving** package, use it as the guiding document—the whole-package analogue of documenting a single component’s internals.
+
+When scaffolding a package, outline planned components (even if folders do not exist yet), expected interactions, and routing or layering (for example which component owns shared taxonomies versus extension components). Treat unbuilt portions like component architecture: mark them clearly—for example **FUTURE**, **TBD (future)**, or **TBD (later)**. As components are added or refactored, **keep package-level `architecture.md` synchronized** so it stays the accurate map of the package.
+
+Additional **Architectural Decision Records** (ADR), named `[architecture-decision]-ard.md`, may live in the `architecture/` folder to capture package-wide decisions (dependency choices, decomposition into components, cross-component contracts).
+
+**Where should package `architecture.md` be stored?**
+- Put `architecture.md` directly in **`{package-root}/architecture.md`** if the package is simple (few components, straightforward relationships).
+- Create an **`{package-root}/architecture/`** folder and put **`architecture.md`** inside if relationships, dependencies on other packages, or evolution over time merit a richer architecture story; place ADRs beside it in that folder.
+
 #### `knowledge/` folder (contains components)
 
-Contains the `Cognitive Components` that belong to the package. Each subfolder is a self-contained component with its own `agent/`, `concepts/`, `data/`, and `workflows/` structure.
+Contains the `Cognitive Components` that belong to the package. Each subfolder is a self-contained component with its own `agent/`, `architecture/` (when used), `concepts/`, `data/`, and `workflows/` structure.
 
 #### `agent.md` file (in component root or inside `agent/` folder)
 
@@ -253,7 +293,7 @@ Contains bash, Python, etc. scripts required for execution of `Rulebooks` of thi
 
 #### Package cohesion
 
-All components within a package have access to each other. They share and consistently use the same terms, concepts, and principles described in `glossary.md`, and can reference each other's data and rulebooks.
+All components within a package have access to each other. They share and consistently use the same terms, concepts, and principles described in `glossary.md`, and can reference each other's data and rulebooks. Package-level `architecture.md` is the authoritative place to document **how** that sharing is intended to work—which components expose which responsibilities and **how they connect**—so cohesion stays explicit as the package grows.
 
 ---
 
@@ -278,14 +318,19 @@ The Project has approximately the same structure as a Cognitive Package:
 ├── AGENTS.md
 ├── agent/
 │   └── agent.md
+├── architecture/               # or architecture.md at project root for simple projects
+│   ├── architecture.md
+│   └── [architecture-decision]-ard.md
 ├── knowledge/
 │   ├── [component-name-1]/
 │   │   ├── agent/
+│   │   ├── architecture/
 │   │   ├── concepts/
 │   │   ├── data/
 │   │   └── workflows/
 │   ├── [component-name-2]/
 │   │   ├── agent/
+│   │   ├── architecture/
 │   │   ├── concepts/
 │   │   ├── data/
 │   │   └── workflows/
@@ -298,6 +343,8 @@ The `Project` contains a `knowledge/` folder where components developed and modi
 The `Project` may maintain its own `glossary.md` at the project root to aggregate or extend terms from multiple packages.
 
 It may also have an `agent/` folder with `agent.md` if a single entry point for agentic requests is needed in design-time or run-time.
+
+It may have `architecture.md` at the project root or under `architecture/`, with the same semantics as package-level architecture: describe the cognitive layout of the project (library packages plus `knowledge/` components), how components connect, and how the design evolves.
 
 Additional project folders and files:
 
@@ -330,19 +377,21 @@ Located at `{project-root}/cognitive-package.json`. Same format as in a Cognitiv
 ## How It Works Together
 
 1. `Cognitive Component` is the container for structured knowledge for a specific domain.
-2. `Definitions` introduce common language and terms, explain how concepts relate and operate.
-3. `Classes` define the data structure of `Entities` that will be used in `Workflows`.
-4. `Taxonomies` organize `Entities` into `Categories`, allowing `Rulebooks` to recognize entities and apply rules appropriate to their type.
-5. `Principles` provide guidance to `Rulebooks`, introducing centralized prompts and instructions.
-6. `Templates` help `Rulebooks` to format data in the right structures while processing.
-7. The `data/` folder stores `Entities` and other supplementary data required for `Rulebooks` to process.
-8. `Workflows` describe the logic of the `Cognitive Component` and define actions in the form of `Rulebooks`.
-9. `Cognitive Package` organizes several `Cognitive Components` into one space with shared knowledge.
-10. `Glossary` collects all important links to the terms, `Classes`, `Taxonomies`, and `Principles` across the `Cognitive Package`, providing this knowledge for external processes and users who use the package.
-11. `Agent` is a centralized agentic AI entry point and routing layer allowing external processes to call and run `Rulebooks` of the entire `Cognitive Package` or individual `Cognitive Components` inside the package through requests.
-12. A user's `Project` can be written in their preferred language and frameworks. To use Cognitive Components, the user may add the `.knowlib/` folder (containing Cognitive Packages) and `IKNOW.md` to the project root, and merge `AGENTS.md` from the Cognitive Components repository.
-13. Users can create their own `Cognitive Components` in the `knowledge/` folder of their `Project`.
-14. Any such `Project` can be saved as a `Cognitive Package` and reused or distributed as a cognitive library without changing the folder structure.
+2. `Architecture` describes the purpose of the component and its elements, and how this component is supposed to collaborate with the other components. At the start, architecture is a valuable central file to create and configure all other elements of the component; later it can be analyzed to understand the implemented logic and how parts work together.
+3. `Definitions` introduce common language and terms, explain how concepts relate and operate.
+4. `Classes` define the data structure of `Entities` that will be used in `Workflows`.
+5. `Taxonomies` organize `Entities` into `Categories`, allowing `Rulebooks` to recognize entities and apply rules appropriate to their type.
+6. `Principles` provide guidance to `Rulebooks`, introducing centralized prompts and instructions.
+7. `Templates` help `Rulebooks` to format data in the right structures while processing.
+8. The `data/` folder stores `Entities` and other supplementary data required for `Rulebooks` to process.
+9. `Workflows` describe the logic of the `Cognitive Component` and define actions in the form of `Rulebooks`.
+10. `Cognitive Package` organizes several `Cognitive Components` into one space with shared knowledge.
+11. `Package Architecture` (`architecture.md` at package root or in `architecture/`), mirrors component-level architecture: it describes the whole package, planned or present components, how they interoperate, and how the package relates to dependencies, guides incremental build-out, and should stay aligned with implementation.
+12. `Glossary` collects all important links to the terms, `Classes`, `Taxonomies`, and `Principles` across the `Cognitive Package`, providing this knowledge for external processes and users who use the package.
+13. `Agent` is a centralized agentic AI entry point and routing layer allowing external processes to call and run `Rulebooks` of the entire `Cognitive Package` or individual `Cognitive Components` inside the package through requests.
+14. A user's `Project` can be written in their preferred language and frameworks. To use Cognitive Components, the user may add the `.knowlib/` folder (containing Cognitive Packages) and `IKNOW.md` to the project root, and merge `AGENTS.md` from the Cognitive Components repository.
+15. Users can create their own `Cognitive Components` in the `knowledge/` folder of their `Project`.
+16. Any such `Project` can be saved as a `Cognitive Package` and reused or distributed as a cognitive library without changing the folder structure.
 
 ---
 
@@ -369,6 +418,8 @@ SupportTeamProject/
     │   └── workflows/
     │       └── product-lookup-rulebook.md        # find relevant product information for a ticket
     ├── customer-support/                         # component containing process knowledge for support agents  
+    │   ├── architecture/
+    │   │   └── architecture.md                   # describes the structure and purpose of customer-support
     │   ├── concepts/
     │   │   ├── definitions/
     │   │   │   └── customer-support-definitions.md
@@ -422,8 +473,12 @@ MyECommerceWebsite/
 │   └── ecommerce-package/
 │       ├── glossary.md
 │       ├── agent.md
+│       ├── architecture/
+│       │   └── architecture.md
 │       └── knowledge/
 │           ├── ecommerce-product-catalog/  # base component defining ecommerce products
+│           │   ├── architecture/
+│           │   │   └── architecture.md
 │           │   ├── concepts/
 │           │   │   ├── definitions/
 │           │   │   │   └── ecommerce-product-definitions.md
@@ -495,7 +550,7 @@ MyECommerceWebsite/
 - **ecommerce-product-catalog** — Defines the `Product` class, product taxonomy, and generic rulebooks for product search, comparison, and recommendation. This component establishes the shared vocabulary and workflows for product data across any e-commerce site.
 - **ecommerce-crm** — Defines the `Customer` class and customer-related workflows (new customer onboarding, personalization). It provides the base CRM logic that projects can extend.
 
-The package exposes a shared `glossary.md` and `agent.md` so external callers can route requests to the appropriate component. Projects add this package as a dependency and do not modify it.
+The package exposes a shared `glossary.md` and `agent.md` so external callers can route requests to the appropriate component. Package-level `architecture/architecture.md` documents how `ecommerce-product-catalog` and `ecommerce-crm` fit together (shared vocabulary, extension points for site-specific catalogs) and remains the map of the reusable library layout. Projects add this package as a dependency and do not modify it.
 
 **Project components** (`knowledge/`). Components developed or customized for this specific website:
 

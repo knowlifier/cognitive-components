@@ -82,7 +82,7 @@ cognitive-components/
         │   │   └── data-collection-definitions.md
         │   ├── principles/
         │   │   ├── incomplete-unstructured-data-handling-principle.md
-        │   │   └── taxonomy-extension-princilpe.md
+        │   │   └── taxonomy-extension-principle.md
         │   ├── taxonomies/
         │   │   └── FileFidelityTaxonomy.md
         │   └── templates/
@@ -110,7 +110,7 @@ cognitive-components/
 | `concepts/definitions/data-collection-definitions.md` | Placeholder for Data Collection definitions. |
 | `concepts/classes/metadata-details.md` | `Metadata-Details` block for document metadata (version, author, fidelity, optional source). |
 | `concepts/principles/incomplete-unstructured-data-handling-principle.md` | Principles for handling incomplete or unstructured data. |
-| `concepts/principles/taxonomy-extension-princilpe.md` | Principles for extending taxonomies. |
+| `concepts/principles/taxonomy-extension-principle.md` | Principles for extending taxonomies. |
 | `concepts/taxonomies/FileFidelityTaxonomy.md` | Taxonomy for file fidelity levels (e.g., `#good-enough`, `#zero`). |
 | `concepts/templates/taxonomy-template.md` | Template for creating new taxonomies. |
 | `workflows/claude-skill-generator/generate-claude-skill-rulebook.md` | Rulebook to generate a self-contained Claude skill under the component’s `workflows/skills/`. |
