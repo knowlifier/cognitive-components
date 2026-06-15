@@ -13,7 +13,6 @@
     - [Cognitive Component](#cognitive-component)
     - [Cognitive Component Structure](#cognitive-component-structure)
       - [`agent.md` file (in component root or inside `agent/` folder)](#agentmd-file-in-component-root-or-inside-agent-folder)
-      - [`architecture.md` (in component root or inside `architecture/` folder)](#architecturemd-in-component-root-or-inside-architecture-folder)
       - [`concepts/` folder](#concepts-folder)
         - [`classes/` folder](#classes-folder)
         - [`definitions/` folder](#definitions-folder)
@@ -70,13 +69,13 @@ A `Cognitive Component` follows this structure:
 
 ```
 {cognitive-component-root}/
+├── _design/                    
+│   ├── architecture.md
+│   └── feedback/
 ├── agent/                      # or agent.md at root for simple components
 │   ├── agent.md
 │   ├── [scenario-rulebook].md
 │   └── [scenario-rulebook].md
-├── architecture/               # or architecture.md at root for simple components
-│   ├── architecture.md
-│   └── [architecture-decision]-ard.md
 ├── concepts/
 │   ├── classes/
 │   │   ├── [ClassName].md
@@ -126,22 +125,6 @@ The main agent file `agent.md` serves as the primary `Rulebook`. Additional mark
 **Where should the `agent.md` file be stored?**
 - Put `agent.md` directly in the component root folder `{cognitive-component-root}/agent.md` if the component is simple and does not require multiple complex jobs.
 - Create an `agent/` folder and put `agent.md` inside; if the logic is complex and has additional `Rulebooks` for separate jobs, put these rulebooks in the `agent/` folder.
-
-#### `architecture.md` (in component root or inside `architecture/` folder)
-
-The `architecture.md` file describes the structure and purpose of the component and how it will cooperate with other components.
-
-When a new empty cognitive component is created during development, describe the structure and purpose of its parts in `architecture.md`, together with the high-level view of the component's purpose, expected elements, and logic. As the file matures, it becomes easier to add the rest of the package (concepts, principles, workflows) with `architecture.md` as the guiding document.
-
-The architecture file captures the intended structure and purpose of the cognitive component's parts. Some parts may not be implemented yet but should still appear in the document to guide future work. While drafting, informal markers such as “FUTURE” or “TBD (later)” are fine. When the document is maintained or synchronized with the tree (see `workflows/sync-architecture-rulebook.md` in **cognitive-components-core**), use the canonical line per design unit: `**Implementation status:** FUTURE` | `IN PROGRESS` | `IMPLEMENTED`.
-
-Later in the development lifecycle, as specific areas of the cognitive component are built out, keep `architecture.md` synchronized with those changes so it stays accurate and reflects the current architecture.
-
-Additional ADR files (Architectural Decision Records), named `[architecture-decision]-ard.md`, may also be placed in the `architecture/` folder. They can document separate decisions and explain why a specific design was chosen.
-
-**Where should the `architecture.md` file be stored?**
-- Put `architecture.md` directly in the component root folder `{cognitive-component-root}/architecture.md` if the component is simple and does not require a complex architecture or versioning strategy.
-- Create an `architecture/` folder and put `architecture.md` inside if the logic is complex. Place additional ADRs in the `architecture/` folder as well.
 
 #### `concepts/` folder
 
